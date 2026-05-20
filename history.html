@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>History — Philippine International College</title>
+  <meta name="description" content="Explore the history of Philippine International College, from EHIBI in 1996 to God's College with a global mission." />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    .nav-link.active { color: var(--gold); }
+
+    .page-hero {
+      position: relative;
+      min-height: 52vh;
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
+      padding-top: 72px;
+    }
+
+    .page-hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=1440,h=756,fit=crop/pO5TAWTOF6VugWrE/471110309_122184953240043127_3617015519810238311_n-dtFHIoOOQH6pJt6F.jpg');
+      background-size: cover;
+      background-position: center 30%;
+      z-index: 0;
+    }
+
+    .page-hero-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: linear-gradient(to bottom, rgba(10,18,40,0.50), rgba(10,18,40,0.35), rgba(10,18,40,0.82));
+    }
+
+    .page-hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 56px 32px 72px;
+      width: 100%;
+    }
+
+    .page-hero-content .hero-eyebrow { color: var(--gold); }
+
+    .page-hero-content h1 {
+      font-family: var(--ff-display);
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+
+    .page-hero-content h1 em {
+      font-style: italic;
+      color: var(--gold-light);
+    }
+
+    .page-hero-content p {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.75);
+      max-width: 620px;
+      line-height: 1.75;
+    }
+
+    .history-intro { background: var(--cream); }
+
+    .history-intro-card {
+      background: var(--white);
+      border: 1px solid var(--cream-dark);
+      border-radius: var(--radius-lg);
+      padding: 42px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .history-intro-card p {
+      color: var(--text-mid);
+      line-height: 1.8;
+      margin-bottom: 16px;
+    }
+
+    .timeline-section { background: var(--cream-dark); }
+
+    .timeline {
+      position: relative;
+      margin-top: 56px;
+      padding-left: 0;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--gold), rgba(201,168,76,0.15));
+      transform: translateX(-50%);
+    }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 1fr 48px 1fr;
+      gap: 0 24px;
+      align-items: start;
+      margin-bottom: 48px;
+      position: relative;
+    }
+
+    .timeline-item:nth-child(odd) .timeline-content {
+      grid-column: 1;
+      text-align: right;
+    }
+
+    .timeline-item:nth-child(odd) .timeline-dot { grid-column: 2; }
+    .timeline-item:nth-child(odd) .timeline-empty { grid-column: 3; }
+    .timeline-item:nth-child(even) .timeline-empty { grid-column: 1; }
+    .timeline-item:nth-child(even) .timeline-dot { grid-column: 2; }
+
+    .timeline-item:nth-child(even) .timeline-content {
+      grid-column: 3;
+      text-align: left;
+    }
+
+    .timeline-dot {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--navy);
+      border: 3px solid var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      color: var(--gold);
+      position: relative;
+      z-index: 1;
+      margin-top: 4px;
+    }
+
+    .timeline-content {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 22px 26px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--cream-dark);
+    }
+
+    .timeline-year {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    .timeline-content h4 {
+      font-family: var(--ff-display);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .timeline-content p {
+      font-size: 0.88rem;
+      color: var(--text-mid);
+      line-height: 1.65;
+    }
+
+    .map-note {
+      background: var(--cream);
+      border: 1px solid var(--cream-dark);
+      border-radius: var(--radius);
+      padding: 22px;
+      margin-top: 20px;
+      color: var(--text-mid);
+      line-height: 1.7;
+    }
+
+    @media (max-width: 768px) {
+      .history-intro-card { padding: 28px; }
+
+      .timeline::before { left: 24px; }
+
+      .timeline-item {
+        grid-template-columns: 48px 1fr;
+        gap: 0 16px;
+      }
+
+      .timeline-item:nth-child(odd) .timeline-content,
+      .timeline-item:nth-child(even) .timeline-content {
+        grid-column: 2;
+        grid-row: 1;
+        text-align: left;
+      }
+
+      .timeline-item:nth-child(odd) .timeline-dot,
+      .timeline-item:nth-child(even) .timeline-dot {
+        grid-column: 1;
+        grid-row: 1;
+      }
+
+      .timeline-empty { display: none; }
+    }
+
+    @media (max-width: 480px) {
+      .page-hero-content { padding: 40px 20px 56px; }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="index.html#home" class="nav-logo">
+        <img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=375,fit=crop/pO5TAWTOF6VugWrE/logo-bPmme3gts3ehdR1O.jpg" alt="PIC Logo" />
+        <span class="logo-text">Philippine International College</span>
+      </a>
+
+      <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav class="nav-links" id="nav-links">
+        <a href="index.html" class="nav-link">Home</a>
+
+        <div class="nav-dropdown">
+          <a href="index.html#about" class="nav-link active">About <svg width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></a>
+          <div class="dropdown-menu">
+            <a href="index.html#about">Our Story</a>
+            <a href="index.html#about">President's Message</a>
+            <a href="history.html">History</a>
+            <a href="#location">Location & Facilities</a>
+          </div>
+        </div>
+
+        <div class="nav-dropdown">
+          <a href="index.html#programs" class="nav-link">Programs <svg width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></a>
+          <div class="dropdown-menu">
+            <a href="index.html#undergraduate">Undergraduate</a>
+            <a href="index.html#graduate">Graduate</a>
+          </div>
+        </div>
+
+        <a href="mission.html" class="nav-link">Mission</a>
+        <a href="index.html#admissions" class="nav-link">Admissions</a>
+        <a href="index.html#contact" class="nav-link">Contact</a>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdP0A-RJa_iDcjq21-44Mthy47iTjTIFLBRNqxa7sWvRMi9NA/viewform" target="_blank" class="btn-apply">Apply Now</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="page-hero">
+    <div class="page-hero-bg"></div>
+    <div class="page-hero-overlay"></div>
+    <div class="page-hero-content">
+      <p class="hero-eyebrow">God's College · Est. 1996</p>
+      <h1>Our <em>History</em></h1>
+      <p>Tracing Philippine International College from its humble beginning as EHIBI to a Christ-centered college with a global mission.</p>
+    </div>
+  </section>
+
+  <section class="welcome-strip">
+    <div class="strip-inner">
+      <p class="strip-quote">"Tracing our school's journey year by year through faith, service, and God's guidance."</p>
+    </div>
+  </section>
+
+  <section class="history-intro section">
+    <div class="container">
+      <p class="section-eyebrow center">Our Roots</p>
+      <h2 class="section-title center">A Journey of <em>Faithfulness</em></h2>
+      <div class="history-intro-card reveal">
+        <p>Philippine International College began on June 10, 1996 as the Evangelical Holiness International Bible Institute. From a small Bible institute, the school grew through prayer, leadership, government recognition, academic expansion, and international partnerships.</p>
+        <p>Through the years, the institution developed from EHIBI into International Evangelical College and eventually into Philippine International College, embracing its identity as God's College and its calling to train global Christian leaders.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="timeline-section section">
+    <div class="container">
+      <p class="section-eyebrow center">PIC Timeline</p>
+      <h2 class="section-title center">History <em>Timeline</em></h2>
+      <p class="section-desc center">Important milestones in the growth of Philippine International College.</p>
+
+      <div class="timeline">
+        <div class="timeline-item reveal">
+          <div class="timeline-content">
+            <span class="timeline-year">June 10, 1996</span>
+            <h4>Founded as EHIBI</h4>
+            <p>The Evangelical Holiness International Bible Institute was established, marking the beginning of what would become Philippine International College.</p>
+          </div>
+          <div class="timeline-dot">✦</div>
+          <div class="timeline-empty"></div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="timeline-empty"></div>
+          <div class="timeline-dot">✝</div>
+          <div class="timeline-content">
+            <span class="timeline-year">December 21, 1998</span>
+            <h4>Board of Directors Organized</h4>
+            <p>The Board of Directors for the support and development of the theological school was formally organized, helping establish the school's future direction.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="timeline-content">
+            <span class="timeline-year">June 1, 1999</span>
+            <h4>PTSU Accreditation</h4>
+            <p>The school earned accreditation as a member of the Philippine Theological School Union, strengthening its credibility in theological education.</p>
+          </div>
+          <div class="timeline-dot">🏛</div>
+          <div class="timeline-empty"></div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="timeline-empty"></div>
+          <div class="timeline-dot">🎓</div>
+          <div class="timeline-content">
+            <span class="timeline-year">April 4, 2000</span>
+            <h4>First Graduation Ceremony</h4>
+            <p>The first class of graduates completed their studies, beginning a continuing legacy of academic and spiritual formation.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="timeline-content">
+            <span class="timeline-year">2001-2003</span>
+            <h4>Continued Graduations</h4>
+            <p>Succeeding graduation ceremonies were held, showing steady growth in the school community and its academic mission.</p>
+          </div>
+          <div class="timeline-dot">✦</div>
+          <div class="timeline-empty"></div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="timeline-empty"></div>
+          <div class="timeline-dot">✦</div>
+          <div class="timeline-content">
+            <span class="timeline-year">May 9, 2003</span>
+            <h4>Renamed International Evangelical College</h4>
+            <p>The institution was officially renamed International Evangelical College, reflecting its growing vision and reach.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="timeline-content">
+            <span class="timeline-year">November 18, 2003</span>
+            <h4>Foundation Registration</h4>
+            <p>The school completed its registration as an educational foundation and received formal recognition from the immigration office.</p>
+          </div>
+          <div class="timeline-dot">📄</div>
+          <div class="timeline-empty"></div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="timeline-empty"></div>
+          <div class="timeline-dot">📍</div>
+          <div class="timeline-content">
+            <span class="timeline-year">December 15, 2003</span>
+            <h4>Moved to Antipolo City</h4>
+            <p>The institution transferred to its present campus in Antipolo City, Rizal.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="timeline-content">
+            <span class="timeline-year">March 23-24, 2004</span>
+            <h4>Consecration and 5th Graduation</h4>
+            <p>The college held its consecration service, followed by its fifth graduation ceremony the next day.</p>
+          </div>
+          <div class="timeline-dot">✝</div>
+          <div class="timeline-empty"></div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="timeline-empty"></div>
+          <div class="timeline-dot">🏛</div>
+          <div class="timeline-content">
+            <span class="timeline-year">February 14, 2005</span>
+            <h4>DepEd Four-Year College Recognition</h4>
+            <p>The Department of Education accredited the institution as a four-year college, a major milestone in its academic development.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="timeline-content">
+            <span class="timeline-year">March 22, 2006</span>
+            <h4>Korean Studies Approved</h4>
+            <p>The Department of Korean Studies was approved, expanding the institution's academic offerings and international direction.</p>
+          </div>
+          <div class="timeline-dot">🌏</div>
+          <div class="timeline-empty"></div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="timeline-empty"></div>
+          <div class="timeline-dot">⭐</div>
+          <div class="timeline-content">
+            <span class="timeline-year">September 5, 2006</span>
+            <h4>10th Founding Anniversary</h4>
+            <p>The institution celebrated its 10th Founding Anniversary with a proclamation ceremony and renewed vision.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="timeline-content">
+            <span class="timeline-year">March 21, 2009</span>
+            <h4>World Missions Approved</h4>
+            <p>The Department of World Missions was approved by the Department of Education, strengthening PIC's missional identity.</p>
+          </div>
+          <div class="timeline-dot">🌏</div>
+          <div class="timeline-empty"></div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="timeline-empty"></div>
+          <div class="timeline-dot">🤝</div>
+          <div class="timeline-content">
+            <span class="timeline-year">November 13, 2009</span>
+            <h4>Seoul Theological University Partnership</h4>
+            <p>The institution forged a twinning agreement with Seoul Theological University, strengthening international linkages.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="timeline-content">
+            <span class="timeline-year">June 24, 2010</span>
+            <h4>Jeonju University Partnership</h4>
+            <p>A partnership with Jeonju University was formalized, followed by a student exchange program later that year.</p>
+          </div>
+          <div class="timeline-dot">🤝</div>
+          <div class="timeline-empty"></div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="timeline-empty"></div>
+          <div class="timeline-dot">⭐</div>
+          <div class="timeline-content">
+            <span class="timeline-year">June 24, 2011</span>
+            <h4>15th Founding Anniversary</h4>
+            <p>The school celebrated fifteen years of God's faithfulness in education, ministry, and mission.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="timeline-content">
+            <span class="timeline-year">2012</span>
+            <h4>New Programs and Memberships</h4>
+            <p>The school launched Korean language special courses, formed a twinning partnership with Seo Hai College, and became a member of ACSCU.</p>
+          </div>
+          <div class="timeline-dot">📖</div>
+          <div class="timeline-empty"></div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="timeline-empty"></div>
+          <div class="timeline-dot">🎓</div>
+          <div class="timeline-content">
+            <span class="timeline-year">June 3, 2013</span>
+            <h4>Graduate School Opened</h4>
+            <p>The Graduate School officially opened, offering Master's and Doctorate programs for advanced theological and ministry studies.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="timeline-content">
+            <span class="timeline-year">October 15, 2013</span>
+            <h4>Music and Fine Arts Education Approved</h4>
+            <p>The Department of Education granted approvals for Music and Fine Arts Education.</p>
+          </div>
+          <div class="timeline-dot">🎼</div>
+          <div class="timeline-empty"></div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="timeline-empty"></div>
+          <div class="timeline-dot">✦</div>
+          <div class="timeline-content">
+            <span class="timeline-year">April 3, 2014</span>
+            <h4>Officially Renamed PIC</h4>
+            <p>The institution was officially renamed Philippine International College, embracing its identity as God's College with a global mission.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="timeline-content">
+            <span class="timeline-year">September 15, 2014</span>
+            <h4>Indiana Aerospace University MOU</h4>
+            <p>A memorandum of understanding was signed with Indiana Aerospace University, showing continued institutional development.</p>
+          </div>
+          <div class="timeline-dot">🤝</div>
+          <div class="timeline-empty"></div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="timeline-empty"></div>
+          <div class="timeline-dot">🏛</div>
+          <div class="timeline-content">
+            <span class="timeline-year">November 7, 2014</span>
+            <h4>PIC Foundation Established</h4>
+            <p>The PIC Foundation was formally established and the new chairman of the board was inaugurated.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="location section" id="location">
+    <div class="container two-col reverse">
+      <div class="location-text">
+        <p class="section-eyebrow">Find Us</p>
+        <h2 class="section-title">Our Campus</h2>
+        <p>Our campus is located in Antipolo City, providing a peaceful environment for spiritual growth, learning, and community life.</p>
+
+        <div class="location-detail">
+          <div class="loc-item">
+            <div class="loc-icon">📍</div>
+            <div>
+              <strong>Address</strong>
+              <p>Sitio Bayugo, Buliran Rd., Brgy. San Isidro,<br />Antipolo City, Rizal 1870, Philippines</p>
+            </div>
+          </div>
+
+          <div class="loc-item">
+            <div class="loc-icon">🕐</div>
+            <div>
+              <strong>Office Hours</strong>
+              <p>Monday – Friday: 8:00 AM – 5:00 PM</p>
+            </div>
+          </div>
+
+          <div class="loc-item">
+            <div class="loc-icon">📞</div>
+            <div>
+              <strong>Phone</strong>
+              <p><a href="tel:028-285-9724">028-285-9724</a></p>
+            </div>
+          </div>
+
+          <div class="loc-item">
+            <div class="loc-icon">✉</div>
+            <div>
+              <strong>Email</strong>
+              <p><a href="mailto:pic1996.edu@gmail.com">pic1996.edu@gmail.com</a></p>
+            </div>
+          </div>
+        </div>
+
+        <p class="map-note">This is the same campus location featured on the main site, now placed here too so the history page feels complete.</p>
+      </div>
+
+      <div class="map-embed">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3860.4!2d121.175!3d14.623!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sSitio+Bayugo+Buliran+Rd+Brgy+San+Isidro+Antipolo+City+Rizal!5e0!3m2!1sen!2sph!4v1700000000000"
+          width="100%"
+          height="380"
+          style="border:0;"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="PIC Campus Map"
+        ></iframe>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=375,fit=crop/pO5TAWTOF6VugWrE/logo-bPmme3gts3ehdR1O.jpg" alt="PIC Logo" />
+        <p>Philippine International College<br /><em>God's College · Est. 1996</em></p>
+      </div>
+
+      <div class="footer-links">
+        <h4>Quick Links</h4>
+        <a href="index.html#home">Home</a>
+        <a href="index.html#about">About</a>
+        <a href="history.html">History</a>
+        <a href="index.html#programs">Programs</a>
+        <a href="mission.html">Mission</a>
+        <a href="index.html#admissions">Admissions</a>
+        <a href="index.html#contact">Contact</a>
+      </div>
+
+      <div class="footer-links">
+        <h4>Programs</h4>
+        <a href="index.html#undergraduate">BA Asian Studies</a>
+        <a href="index.html#undergraduate">BA Theology</a>
+        <a href="index.html#undergraduate">Bachelor of Christian Education</a>
+        <a href="index.html#undergraduate">Bachelor of Physical Education</a>
+        <a href="index.html#graduate">MA Theological Studies</a>
+        <a href="index.html#graduate">MA Christian Education</a>
+        <a href="index.html#graduate">Doctor of Ministry</a>
+      </div>
+
+      <div class="footer-links">
+        <h4>Contact</h4>
+        <p>Sitio Bayugo, Buliran Rd.,<br />Brgy. San Isidro, Antipolo City,<br />Rizal 1870, Philippines</p>
+        <a href="tel:028-285-9724">028-285-9724</a>
+        <a href="mailto:pic1996.edu@gmail.com">pic1996.edu@gmail.com</a>
+        <a href="https://www.facebook.com/profile.php?id=61551293819605" target="_blank">Facebook Page</a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2025 Philippine International College. All rights reserved. · <em>"Training Global Christian Leaders"</em></p>
+    </div>
+  </footer>
+
+  <script>
+    const navbar = document.getElementById('navbar');
+
+    window.addEventListener('scroll', () => {
+      if (navbar) {
+        navbar.classList.toggle('scrolled', window.scrollY > 40);
+      }
+    });
+
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('nav-links');
+
+    if (hamburger && navLinks) {
+      hamburger.addEventListener('click', () => {
+        navLinks.classList.toggle('open');
+
+        const isOpen = navLinks.classList.contains('open');
+        hamburger.setAttribute('aria-expanded', isOpen);
+        document.body.style.overflow = isOpen ? 'hidden' : '';
+      });
+
+      navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          navLinks.classList.remove('open');
+          hamburger.setAttribute('aria-expanded', 'false');
+          document.body.style.overflow = '';
+        });
+      });
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.08,
+      rootMargin: '0px 0px -40px 0px'
+    });
+
+    document.querySelectorAll('.reveal').forEach(el => {
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>

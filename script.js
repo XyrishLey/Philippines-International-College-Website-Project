@@ -2,32 +2,40 @@
 const navbar = document.getElementById('navbar');
 
 window.addEventListener('scroll', () => {
-  navbar.classList.toggle('scrolled', window.scrollY > 40);
+  if (navbar) {
+    navbar.classList.toggle('scrolled', window.scrollY > 40);
+  }
 });
 
 // ── HAMBURGER MENU ──
 const hamburger = document.getElementById('hamburger');
 const navLinks  = document.getElementById('nav-links');
 
-hamburger.addEventListener('click', () => {
-  navLinks.classList.toggle('open');
-  const isOpen = navLinks.classList.contains('open');
-  hamburger.setAttribute('aria-expanded', isOpen);
-  document.body.style.overflow = isOpen ? 'hidden' : '';
-});
-
-navLinks.querySelectorAll('a').forEach(link => {
-  link.addEventListener('click', () => {
-    navLinks.classList.remove('open');
-    document.body.style.overflow = '';
+if (hamburger && navLinks) {
+  hamburger.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+    const isOpen = navLinks.classList.contains('open');
+    hamburger.setAttribute('aria-expanded', isOpen);
+    document.body.style.overflow = isOpen ? 'hidden' : '';
   });
-});
+
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      document.body.style.overflow = '';
+      hamburger.setAttribute('aria-expanded', 'false');
+    });
+  });
+}
 
 // ── FORM VALIDATION HELPERS ──
 
 function showError(input, message) {
+  if (!input) return;
+
   clearError(input);
   input.classList.add('input-error');
+
   const err = document.createElement('p');
   err.className = 'field-error';
   err.textContent = message;
@@ -35,7 +43,10 @@ function showError(input, message) {
 }
 
 function clearError(input) {
+  if (!input) return;
+
   input.classList.remove('input-error');
+
   const existing = input.parentElement.querySelector('.field-error');
   if (existing) existing.remove();
 }
@@ -50,60 +61,100 @@ const TRUSTED_DOMAINS = [
 ];
 
 function isValidEmail(value) {
+  const email = value.trim().toLowerCase();
+
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(value)) return false;
-  const domain = value.split('@')[1].toLowerCase();
-  return TRUSTED_DOMAINS.some(trusted =>
-    domain === trusted || domain.endsWith('.' + trusted)
-  );
+  if (!emailRegex.test(email)) return false;
+
+  const domain = email.split('@')[1];
+
+  // Only exact trusted domains are accepted.
+  return TRUSTED_DOMAINS.includes(domain);
 }
 
-// ── NAME FIELD: block invalid keys & paste ──
+// ── NAME FIELD: block invalid typing, paste, autofill ──
 const nameInput  = document.getElementById('name');
 const emailInput = document.getElementById('email');
 
-const ALLOWED_NAME_REGEX = /^[A-Za-zÀ-ÖØ-öø-ÿ\s'\-\.]$/;
+const ALLOWED_NAME_KEY = /^[A-Za-zÀ-ÖØ-öø-ÿ\s'\-.]$/;
+const INVALID_NAME_CHARS = /[^A-Za-zÀ-ÖØ-öø-ÿ\s'\-.]/g;
+const FULL_NAME_REGEX = /^[A-Za-zÀ-ÖØ-öø-ÿ\s'\-.]+$/;
+
+function cleanNameValue(value) {
+  return value.replace(INVALID_NAME_CHARS, '');
+}
 
 if (nameInput) {
-  // Block disallowed keystrokes before they reach the input
   nameInput.addEventListener('keydown', (e) => {
-    // Always allow: backspace, delete, arrows, tab, enter, home, end
-    const controlKeys = [
-      'Backspace','Delete','ArrowLeft','ArrowRight',
-      'ArrowUp','ArrowDown','Tab','Enter','Home','End'
+    const allowedControls = [
+      'Backspace', 'Delete', 'ArrowLeft', 'ArrowRight',
+      'ArrowUp', 'ArrowDown', 'Tab', 'Enter', 'Home', 'End'
     ];
-    if (controlKeys.includes(e.key)) return;
 
-    // Block anything not matching allowed characters
-    if (!ALLOWED_NAME_REGEX.test(e.key)) {
+    if (
+      allowedControls.includes(e.key) ||
+      e.ctrlKey ||
+      e.metaKey ||
+      e.altKey
+    ) {
+      return;
+    }
+
+    if (!ALLOWED_NAME_KEY.test(e.key)) {
       e.preventDefault();
-      showError(nameInput, 'Only letters, spaces, hyphens, or apostrophes are allowed.');
+      showError(nameInput, 'Only letters, spaces, hyphens, apostrophes, or periods are allowed.');
     } else {
       clearError(nameInput);
     }
   });
 
-  // Also strip any invalid characters that sneak in via paste
+  nameInput.addEventListener('beforeinput', (e) => {
+    if (!e.data) return;
+
+    if (INVALID_NAME_CHARS.test(e.data)) {
+      e.preventDefault();
+      showError(nameInput, 'Only letters, spaces, hyphens, apostrophes, or periods are allowed.');
+    }
+  });
+
+  nameInput.addEventListener('input', () => {
+    const cleaned = cleanNameValue(nameInput.value);
+
+    if (nameInput.value !== cleaned) {
+      nameInput.value = cleaned;
+      showError(nameInput, 'Only letters, spaces, hyphens, apostrophes, or periods are allowed.');
+    }
+  });
+
   nameInput.addEventListener('paste', (e) => {
     e.preventDefault();
-    const pasted = (e.clipboardData || window.clipboardData).getData('text');
-    const cleaned = pasted.replace(/[^A-Za-zÀ-ÖØ-öø-ÿ\s'\-\.]/g, '');
 
-    // Insert cleaned text at cursor position
+    const pasted = (e.clipboardData || window.clipboardData).getData('text');
+    const cleaned = cleanNameValue(pasted);
+
     const start = nameInput.selectionStart;
-    const end   = nameInput.selectionEnd;
-    const current = nameInput.value;
-    nameInput.value = current.slice(0, start) + cleaned + current.slice(end);
+    const end = nameInput.selectionEnd;
+
+    nameInput.value =
+      nameInput.value.slice(0, start) +
+      cleaned +
+      nameInput.value.slice(end);
 
     if (pasted !== cleaned) {
-      showError(nameInput, 'Only letters, spaces, hyphens, or apostrophes are allowed.');
+      showError(nameInput, 'Only letters, spaces, hyphens, apostrophes, or periods are allowed.');
     } else {
       clearError(nameInput);
     }
   });
 
   nameInput.addEventListener('blur', () => {
-    if (nameInput.value.trim()) clearError(nameInput);
+    const value = nameInput.value.trim();
+
+    if (value && !FULL_NAME_REGEX.test(value)) {
+      showError(nameInput, 'Only letters, spaces, hyphens, apostrophes, or periods are allowed.');
+    } else {
+      clearError(nameInput);
+    }
   });
 }
 
@@ -111,11 +162,13 @@ if (nameInput) {
 if (emailInput) {
   emailInput.addEventListener('blur', () => {
     const val = emailInput.value.trim();
+
     if (!val) return;
+
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)) {
       showError(emailInput, 'Please enter a valid email address.');
     } else if (!isValidEmail(val)) {
-      showError(emailInput, 'Please use a trusted email provider (e.g. Gmail, Yahoo, Outlook).');
+      showError(emailInput, 'Please use a trusted email provider, such as Gmail, Yahoo, or Outlook.');
     } else {
       clearError(emailInput);
     }
@@ -132,9 +185,13 @@ function handleFormSubmit(e) {
   if (!nameInput.value.trim()) {
     showError(nameInput, 'Full name is required.');
     hasError = true;
+  } else if (!FULL_NAME_REGEX.test(nameInput.value.trim())) {
+    showError(nameInput, 'Only letters, spaces, hyphens, apostrophes, or periods are allowed.');
+    hasError = true;
   }
 
   const emailVal = emailInput.value.trim();
+
   if (!emailVal) {
     showError(emailInput, 'Email address is required.');
     hasError = true;
@@ -142,16 +199,25 @@ function handleFormSubmit(e) {
     showError(emailInput, 'Please enter a valid email address.');
     hasError = true;
   } else if (!isValidEmail(emailVal)) {
-    showError(emailInput, 'Please use a trusted email provider (e.g. Gmail, Yahoo, Outlook).');
+    showError(emailInput, 'Please use a trusted email provider, such as Gmail, Yahoo, or Outlook.');
     hasError = true;
   }
 
   if (hasError) return;
 
   const successMsg = document.getElementById('form-success');
-  successMsg.style.display = 'block';
+
+  if (successMsg) {
+    successMsg.style.display = 'block';
+  }
+
   e.target.reset();
-  setTimeout(() => { successMsg.style.display = 'none'; }, 5000);
+
+  setTimeout(() => {
+    if (successMsg) {
+      successMsg.style.display = 'none';
+    }
+  }, 5000);
 }
 
 // ── SCROLL REVEAL ──
